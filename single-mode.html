@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="jquery.ytdirector.js"></script>
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    margin: 50px;
+}
+#binary-counter{
+  font-size: 25px;
+  font-weight: bold;
+  font-family: System, Courier, monospaced;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+  <div id="player"></div> 
+  <div id="binary-counter">
+	Hours: <span id="hrs"></span><br />
+	Minutes: <span id="min"></span><br />
+	Seconds: <span id="sec"></span><br />
+  </div>
+ <script>
+$(document).ready(function(){
+	$('#player').ytdirector({height:480,width:640,videoId:'8gvJzrjwjds',
+		onTimeUpdate:function(){
+		  if(this.timeCode > -1){
+			var hours = Math.floor((this.timeCode / 60) / 60);
+			var minutes = Math.floor((this.timeCode - ((hours * 60) * 60)) / 60);
+			var seconds = Math.floor((this.timeCode - ((hours * 60) * 60)) - (minutes * 60));
+			document.title = '\u25B6 What is an amp? - '+((hours<10)?'0'+hours:hours)+':'+((minutes<10)?'0'+minutes:minutes)+':'+((seconds<10)?'0'+seconds:seconds);
+			$('#hrs').html(hours.toString(2));
+			$('#min').html(minutes.toString(2));
+			$('#sec').html(seconds.toString(2));
+ 		  }
+		}, 
+		onReady:function(){ 
+			$('#binary-counter').css('display', 'none');
+			document.title='Video title'; 
+		},
+		onBuffer:function(){ document.title=(this.percentLoaded*100)+'% Loaded'; },
+		onPlay:function(){ 
+			console.log('Play Started!'); 
+			$('#binary-counter').fadeIn();
+		},
+		onCue:function(){ 
+			console.log('Cued video: Basic Electricity - What is an amp?!') 
+			$('#binary-counter').css('display', 'none');
+		},
+		onEnd:function(){
+			document.title='Basic Electricity - What is an amp?';
+			$('#binary-counter').fadeOut();
+		},
+		onPause:function(){ 
+			console.log('Playback paused!');
+		}
+	});
+});
+function setNumber(num){
+	switch(parseInt(num)){
+		case 0:
+			return 'num0';
+		break;
+		case 1:
+			return 'num1';
+		break;
+		case 2:
+			return 'num2';
+		break;
+		case 3:
+			return 'num3';
+		break;
+		case 4:
+			return 'num4';
+		break;
+		case 5:
+			return 'num5';
+		break;
+		case 6:
+			return 'num6';
+		break;
+		case 7:
+			return 'num7';
+		break;
+		case 8:
+			return 'num8';
+		break;
+		case 9:
+			return 'num9';
+		break;
+	}
+}
+ </script>
+</body>
+</html>

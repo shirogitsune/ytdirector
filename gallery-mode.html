@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="jquery.ytdirector.js"></script>
+<style>
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+	margin:50px;
+}
+#player{
+    width: 640px;
+    border: 1px solid #000;
+}
+#player-wrapper{
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 400px;
+    height: 300px;
+    padding: 0 50px 0 50px;
+    background-color: #000;
+}
+#player-wrapper iframe{
+    margin: 0 auto 0 auto;
+}
+#video-list{
+    display: table-cell;
+    vertical-align: top; 
+}
+#thumb-list{
+    list-style: none;
+    height: 500px;
+    width: 200px;
+    overflow: auto;
+    margin:0;
+    padding:0;
+    border-left: 1px solid #C0C0C0;
+}
+#thumb-list .thumb{
+    border: 1px solid #000;
+    display: block;
+    padding: 10px 0 0 0;
+    text-align: center;
+    margin: 0;
+}
+#thumb-list .caption{
+    display: block;
+    padding: 5px 0 5px 0;
+    color: #FFF;
+    background-color: #000;
+    font-weight: bold;    
+}
+#thumb-list .thumb:hover .caption{
+    background-color: #C0C0C0;
+    color: #000;
+}
+#meat-counter{
+   display: block;
+}
+.time-separator{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 50px;
+    font-size: 60px;
+    line-height: 90px;
+    text-align: center;
+    font-weight: bold;
+	animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+	0% {color: black}
+	50% {color: transparent}
+}
+.num0{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -16px 0px no-repeat;
+}
+.num1{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -84px 0px no-repeat;
+}
+.num2{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -153px 0px no-repeat;
+}
+.num3{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -224px 0px no-repeat;
+}
+.num4{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -294px 0px no-repeat;
+}
+.num5{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -360px 0px no-repeat;
+}
+.num6{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -428px 0px no-repeat;
+}
+.num7{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -500px 0px no-repeat;
+}
+.num8{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -568px 0px no-repeat;
+}
+.num9{
+    display: inline-block;
+    float: left;
+    height: 100px;
+    width: 60px;
+    background: #FFF url('valuepack-number.jpg') -632px 0px no-repeat;
+}
+</style>
+</head>
+<body>
+  <div id="player"></div> 
+  <div id="meat-counter">
+	<div id="hr10" class="num0"></div>
+	<div id="hr1" class="num0"></div>
+	<div class="time-separator">:</div>
+	<div id="min10" class="num0"></div>
+	<div id="min1" class="num0"></div>
+	<div class="time-separator">:</div>
+	<div id="sec10" class="num0"></div>
+	<div id="sec1" class="num0"></div>
+  </div>
+ <script>
+$(document).ready(function(){
+	$('#player').ytdirector({height:480,width:640,playlist:'PLzqS33DOPhJmtM2QVfic-eojEGmePEvWN',
+		onTimeUpdate:function(){
+		  if(this.timeCode > -1){
+			var hours = Math.floor((this.timeCode / 60) / 60);
+			var minutes = Math.floor((this.timeCode - ((hours * 60) * 60)) / 60);
+			var seconds = Math.floor((this.timeCode - ((hours * 60) * 60)) - (minutes * 60));
+			document.title = '\u25B6 '+this.videoList[this.videoIndex][1]+' - '+((hours<10)?'0'+hours:hours)+':'+((minutes<10)?'0'+minutes:minutes)+':'+((seconds<10)?'0'+seconds:seconds);
+			$('#hr10').attr('class', setNumber(Math.floor(hours/10)));
+			$('#hr1').attr('class', setNumber(Math.floor(hours%10)));
+			$('#min10').attr('class', setNumber(Math.floor(minutes/10)));
+			$('#min1').attr('class', setNumber(Math.floor(minutes%10)));
+			$('#sec10').attr('class', setNumber(Math.floor(seconds/10)));
+			$('#sec1').attr('class', setNumber(Math.floor(seconds%10)));
+ 		  }
+		}, 
+		onReady:function(){ 
+			$('#meat-counter').children().each(function(){
+				if($(this).attr('class')!= 'time-separator'){
+					$(this).attr('class', 'num0');
+				}
+			});
+			document.title=this.videoList[this.videoIndex][1]; 
+		},
+		onBuffer:function(){ document.title=(this.percentLoaded*100)+'% Loaded'; },
+		onPlay:function(){ console.log('Play Started!'); },
+		onCue:function(){ console.log('Cued video '+this.videoList[this.videoIndex][1]+'!') },
+		onThumbClick:function(){
+		    this.timeCode=-1;
+			$('#meat-counter').children().each(function(){
+				if($(this).attr('class')!= 'time-separator'){
+					$(this).attr('class', 'num0');
+				}
+			});
+			document.title = this.videoList[this.videoIndex][1];
+		},
+		onEnd:function(){document.title=this.videoList[this.videoIndex][1];},
+		onPause:function(){ console.log('Playback paused!'); }
+	});
+});
+function setNumber(num){
+	switch(parseInt(num)){
+		case 0:
+			return 'num0';
+		break;
+		case 1:
+			return 'num1';
+		break;
+		case 2:
+			return 'num2';
+		break;
+		case 3:
+			return 'num3';
+		break;
+		case 4:
+			return 'num4';
+		break;
+		case 5:
+			return 'num5';
+		break;
+		case 6:
+			return 'num6';
+		break;
+		case 7:
+			return 'num7';
+		break;
+		case 8:
+			return 'num8';
+		break;
+		case 9:
+			return 'num9';
+		break;
+	}
+}
+ </script>
+</body>
+</html>

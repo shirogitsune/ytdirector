@@ -1,4 +1,4 @@
-youtubeDirector
+Youtube Director
 ==========
 
 This plugin provides methods to generate a Youtube gallery from a playlist identifier
